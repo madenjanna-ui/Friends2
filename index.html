@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050609">
+<title>С годовщиной — нашим настоящим друзьям ❤️</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050609;color:#fff;font-family:Georgia,"Times New Roman",serif}
+body{touch-action:manipulation}
+#app{position:relative;width:100%;height:100%;overflow:hidden;background:#050609}
+#space{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 1.35s ease;z-index:2}
+.scene.active{opacity:1;visibility:visible;pointer-events:auto}
+#intro{background:radial-gradient(circle at center,#101a3d 0,#050609 58%,#000 100%)}
+.title{text-align:center;padding:28px;animation:float 5s ease-in-out infinite}
+.kicker{font:12px/1.2 Arial,sans-serif;letter-spacing:.25em;text-transform:uppercase;opacity:.62}
+.title h1{font-size:clamp(43px,11vw,88px);font-weight:400;line-height:.95;margin:22px 0}
+.gold{color:#ffd98a}
+button{font:600 14px Arial,sans-serif;letter-spacing:.03em;border:1px solid rgba(255,217,138,.65);background:rgba(255,217,138,.10);color:#ffe9b8;border-radius:999px;padding:14px 24px;cursor:pointer;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.start{margin-top:22px}
+.photo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:4vh 5vw}
+.photo img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:18px;box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.photo:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65),transparent 38%,transparent 65%,rgba(0,0,0,.18));pointer-events:none}
+.overlay{position:absolute;left:6vw;right:6vw;bottom:8vh;z-index:3;text-align:center;text-shadow:0 3px 22px #000}
+.overlay .quote{font-size:clamp(24px,6vw,46px);line-height:1.14}
+.overlay .ref{font:12px Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;opacity:.75;margin-top:15px}
+.card{width:min(88vw,760px);padding:34px 26px;text-align:center;background:rgba(7,9,20,.66);border:1px solid rgba(255,255,255,.13);border-radius:28px;backdrop-filter:blur(16px);box-shadow:0 25px 100px rgba(0,0,0,.55)}
+.card h2{font-size:clamp(31px,7vw,56px);font-weight:400;line-height:1.05;margin:18px 0}
+.card p{font-size:clamp(17px,4vw,23px);line-height:1.5;color:rgba(255,255,255,.84)}
+.pause .card{background:rgba(7,9,20,.82)}
+.pause h2{color:#ffd98a}
+.pause .sub{opacity:.65;font:13px/1.5 Arial,sans-serif}
+#finalSong{background:#050609}
+.final-photo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.final-photo img{width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(1.04);transition:opacity 1.3s ease,transform 5s ease}
+.final-photo img.show{opacity:1;transform:scale(1)}
+.final-caption{position:absolute;left:6vw;right:6vw;bottom:8vh;text-align:center;z-index:3;font-size:clamp(25px,7vw,52px);line-height:1.05;text-shadow:0 4px 28px #000;opacity:0;transition:opacity .8s ease}
+.final-caption.show{opacity:1}
+#songControls{position:absolute;right:16px;top:calc(env(safe-area-inset-top) + 16px);z-index:10}
+#songControls button{padding:10px 14px;font-size:12px;background:rgba(0,0,0,.38);border-color:rgba(255,255,255,.25)}
+#progress{position:absolute;left:5vw;right:5vw;bottom:14px;height:2px;background:rgba(255,255,255,.14);z-index:12;pointer-events:none}
+#progress i{display:block;width:0;height:100%;background:#ffd98a}
+#skip{position:absolute;right:16px;bottom:24px;z-index:15;padding:8px 12px;font-size:11px;background:rgba(0,0,0,.35);border-color:rgba(255,255,255,.2)}
+.flash{position:absolute;inset:0;background:white;opacity:0;z-index:30;pointer-events:none}
+.flash.go{animation:flash .9s ease-out}
+@keyframes flash{0%{opacity:0}18%{opacity:1}100%{opacity:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media(max-width:600px){
+ .photo{padding:8vh 0}
+ .photo img{max-width:100%;max-height:78vh;border-radius:0}
+ .overlay{bottom:9vh}
+ .overlay .quote{font-size:25px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<canvas id="space"></canvas>
+
+<section id="intro" class="scene active">
+ <div class="title">
+  <div class="kicker">для двух людей, которым очень повезло встретиться</div>
+  <h1>Иногда две жизни<br><span class="gold">встречаются не случайно…</span></h1>
+  <button id="startBtn" class="start">✨ Начать историю</button>
+ </div>
+</section>
+
+<section id="collision" class="scene">
+ <div class="title">
+  <div class="kicker">два пути</div>
+  <h1>Две кометы.<br><span class="gold">Одна встреча.</span></h1>
+ </div>
+</section>
+
+<section id="prelude" class="scene">
+ <div class="photo"><img id="preImg" src="assets/sea.jpg" alt=""></div>
+ <div class="overlay">
+   <div id="preQuote" class="quote"></div>
+   <div id="preRef" class="ref"></div>
+ </div>
+</section>
+
+<section id="pause" class="scene pause">
+ <div class="card">
+   <div class="kicker">а теперь — ваша песня</div>
+   <h2>Готовы?</h2>
+   <p>Дальше фотографии и пожелания будут жить уже вместе с вашей песней.</p>
+   <p class="sub">Нажмите кнопку, когда захотите начать.</p>
+   <button id="playSongBtn">▶ Запустить нашу песню</button>
+ </div>
+</section>
+
+<section id="finalSong" class="scene">
+ <div class="final-photo"><img id="songImg" src="assets/sea.jpg" alt=""></div>
+ <div id="songCaption" class="final-caption"></div>
+ <div id="songControls"><button id="songPauseBtn">❚❚ Пауза</button></div>
+ <div id="progress"><i></i></div>
+ <button id="skip">Финал →</button>
+</section>
+
+<audio id="song" preload="auto" src="assets/song.mp3"></audio>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const scenes=[...document.querySelectorAll(".scene")];
+const startBtn=$("startBtn"),playSongBtn=$("playSongBtn"),song=$("song");
+const preImg=$("preImg"),preQuote=$("preQuote"),preRef=$("preRef");
+const songImg=$("songImg"),songCaption=$("songCaption"),pauseBtn=$("songPauseBtn"),skip=$("skip"),progress=$("progress i");
+const canvas=$("space"),ctx=canvas.getContext("2d");
+
+let started=false,preIndex=0,finalIndex=0,scene=0;
+let preTimer=null,finalTimer=null,raf=null,startedAt=0;
+let stars=[],comets=[],hit=false;
+let audioCtx=null,bgGain=null,bgTimer=null;
+
+const photos=[
+ "assets/sea.jpg",
+ "assets/plane.jpg",
+ "assets/turtles.jpg",
+ "assets/hotel.jpg",
+ "assets/winter.jpg",
+ "assets/sunset.jpg",
+ "assets/mountains.jpg",
+ "assets/portrait.jpg",
+ "assets/field.jpg"
+];
+
+/* Exact wording is taken from the New World Translation — study edition. */
+const preSlides=[
+ {img:"assets/sea.jpg",quote:"Если Иегова не строит дом, напрасно трудятся строители.",ref:"Псалом 127:1"},
+ {img:"assets/winter.jpg",quote:"Облекитесь в любовь, потому что она — совершенные узы единства.",ref:"Колоссянам 3:14"},
+ {img:"assets/portrait.jpg",quote:"Пусть каждый из вас любит свою жену, как самого себя, а жене следует глубоко уважать своего мужа.",ref:"Эфесянам 5:33"},
+ {img:"assets/sunset.jpg",quote:"Любовь терпелива и добра. Любовь не завидует и не хвастается, она не гордится.",ref:"1 Коринфянам 13:4"},
+ {img:"assets/field.jpg",quote:"Одного можно одолеть, но двое смогут дать отпор. И тройную верёвку нелегко порвать.",ref:"Экклезиаст 4:12"},
+ {img:"assets/mountains.jpg",quote:"Так и мужья должны любить своих жён, как свои тела.",ref:"Эфесянам 5:28"},
+ {img:"assets/hotel.jpg",quote:"Подчиняйтесь друг другу из глубокого уважения к Христу.",ref:"Эфесянам 5:21"},
+ {img:"assets/plane.jpg",quote:"Пусть Иегова всегда будет частью вашего общего пути.",ref:"Ср. Притчи 3:5, 6"},
+ {img:"assets/turtles.jpg",quote:"Любите друг друга. Смейтесь. Мечтайте. Цените. И с кайфом живите! ❤️",ref:"Наше пожелание вам"}
+];
+
+const songSlides=[
+ {t:0,img:"assets/sea.jpg",text:"Любите друг друга ❤️"},
+ {t:28,img:"assets/plane.jpg",text:"Смейтесь вместе!"},
+ {t:58,img:"assets/mountains.jpg",text:"Мечтайте вместе ✨"},
+ {t:88,img:"assets/hotel.jpg",text:"Цените каждый день"},
+ {t:118,img:"assets/winter.jpg",text:"Будьте рядом — всегда"},
+ {t:148,img:"assets/sunset.jpg",text:"Пусть любовь становится крепче"},
+ {t:178,img:"assets/field.jpg",text:"Муж + жена + Иегова"},
+ {t:208,img:"assets/portrait.jpg",text:"Берегите друг друга ❤️"},
+ {t:238,img:"assets/turtles.jpg",text:"И с кайфом живите! 😄"},
+ {t:266,img:"assets/sea.jpg",text:"С годовщиной свадьбы! ❤️"}
+];
+
+function resize(){
+ canvas.width=innerWidth;canvas.height=innerHeight;
+ stars=Array.from({length:160},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.4+.2,a:.15+Math.random()*.8}));
+ comets=[
+  {x:-180,y:innerHeight*.34,vx:3.2,vy:.7},
+  {x:innerWidth+180,y:innerHeight*.66,vx:-3.2,vy:-.7}
+ ];
+}
+function drawSpace(t){
+ ctx.fillStyle="#02030a";ctx.fillRect(0,0,innerWidth,innerHeight);
+ stars.forEach(s=>{ctx.globalAlpha=s.a*(.55+.45*Math.sin(t*.001+s.x));ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()});
+ ctx.globalAlpha=1;
+ if(scene<=1&&started){
+  comets.forEach(c=>{
+   c.x+=c.vx;c.y+=c.vy;
+   const a=Math.atan2(c.vy,c.vx);ctx.save();ctx.translate(c.x,c.y);ctx.rotate(a);
+   const g=ctx.createLinearGradient(-210,0,20,0);g.addColorStop(0,"rgba(255,140,30,0)");g.addColorStop(.72,"rgba(255,210,110,.35)");g.addColorStop(1,"#fff3c5");
+   ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(-210,0);ctx.quadraticCurveTo(-70,-20,10,-6);ctx.quadraticCurveTo(-70,20,-210,0);ctx.fill();
+   const gl=ctx.createRadialGradient(0,0,0,0,0,28);gl.addColorStop(0,"#fff");gl.addColorStop(.2,"#ffe7a4");gl.addColorStop(.65,"#ff9e3d");gl.addColorStop(1,"rgba(255,70,10,0)");
+   ctx.fillStyle=gl;ctx.beginPath();ctx.arc(0,0,28,0,Math.PI*2);ctx.fill();ctx.restore();
+  });
+  if(!hit && Math.abs(comets[0].x-comets[1].x)<30){
+   hit=true;flash();
+   setTimeout(()=>{show(2);startPrelude()},700);
+  }
+ }
+ raf=requestAnimationFrame(drawSpace);
+}
+function flash(){const f=document.createElement("div");f.className="flash";document.body.appendChild(f);requestAnimationFrame(()=>f.classList.add("go"));setTimeout(()=>f.remove(),950)}
+function show(n){scene=n;scenes.forEach((s,i)=>s.classList.toggle("active",i===n));}
+function initBg(){
+ if(audioCtx)return;
+ const AC=window.AudioContext||window.webkitAudioContext;
+ if(!AC)return;
+ audioCtx=new AC();
+ bgGain=audioCtx.createGain();bgGain.gain.value=.07;bgGain.connect(audioCtx.destination);
+}
+function tone(freq,time,dur,vol=.025,type="triangle"){
+ if(!audioCtx)return;
+ const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+ o.type=type;o.frequency.value=freq;
+ g.gain.setValueAtTime(.001,time);g.gain.exponentialRampToValueAtTime(vol,time+.03);g.gain.exponentialRampToValueAtTime(.001,time+dur);
+ o.connect(g);g.connect(bgGain);o.start(time);o.stop(time+dur+.03);
+}
+function bgLoop(){
+ if(!audioCtx)return;
+ const notes=[220,277.18,329.63,277.18,246.94,293.66,369.99,293.66];
+ const now=audioCtx.currentTime+.05, beat=60/112;
+ notes.forEach((n,i)=>tone(n,now+i*beat/2,beat*.55,.018,"sine"));
+}
+function startBg(){initBg();if(audioCtx&&audioCtx.state==="suspended")audioCtx.resume();bgLoop();bgTimer=setInterval(bgLoop,2140)}
+function stopBg(){if(bgTimer)clearInterval(bgTimer);if(bgGain&&audioCtx){bgGain.gain.setTargetAtTime(.001,audioCtx.currentTime,.4)}}
+
+function startExperience(){
+ if(started)return;
+ started=true;
+ startBtn.style.display="none"; // button disappears immediately
+ startTime=performance.now();
+ initBg();
+ if(audioCtx&&audioCtx.state==="suspended")audioCtx.resume();
+ startBg();
+ // Slow approach before collision
+}
+startBtn.addEventListener("click",startExperience);
+
+function startPrelude(){
+ preIndex=0;
+ updatePrelude();
+ preTimer=setInterval(()=>{
+  preIndex++;
+  if(preIndex>=preSlides.length){
+   clearInterval(preTimer);
+   stopBg();
+   show(3); // manual pause before song
+   return;
+  }
+  updatePrelude();
+ },10500);
+}
+function updatePrelude(){
+ const s=preSlides[preIndex];
+ preImg.src=s.img;preQuote.textContent=s.quote;preRef.textContent=s.ref;
+}
+
+playSongBtn.addEventListener("click",async()=>{
+ playSongBtn.style.display="none"; // disappears on tap
+ show(4);
+ try{
+  await song.play();
+  pauseBtn.textContent="❚❚ Пауза";
+ }catch(e){
+  pauseBtn.textContent="▶ Запустить";
+ }
+ startFinalSlides();
+});
+
+function startFinalSlides(){
+ finalIndex=0; updateFinal();
+ finalTimer=setInterval(()=>{
+  finalIndex++;
+  if(finalIndex>=songSlides.length){clearInterval(finalTimer);return}
+  updateFinal();
+ },28000);
+}
+function updateFinal(){
+ const s=songSlides[finalIndex];
+ songImg.classList.remove("show");
+ songCaption.classList.remove("show");
+ setTimeout(()=>{
+  songImg.src=s.img;
+  songCaption.textContent=s.text;
+  songImg.classList.add("show");
+  songCaption.classList.add("show");
+ },250);
+}
+song.addEventListener("timeupdate",()=>{
+ if(song.duration) progress.style.width=(song.currentTime/song.duration*100)+"%";
+ // Keep slides aligned to actual audio time rather than timer drift.
+ let idx=0;
+ for(let i=0;i<songSlides.length;i++) if(song.currentTime>=songSlides[i].t) idx=i;
+ if(idx!==finalIndex){finalIndex=idx;updateFinal()}
+});
+pauseBtn.addEventListener("click",async()=>{
+ if(song.paused){await song.play();pauseBtn.textContent="❚❚ Пауза"}
+ else{song.pause();pauseBtn.textContent="▶ Продолжить"}
+});
+skip.addEventListener("click",()=>{
+ song.pause();clearInterval(finalTimer);show(4);song.currentTime=song.duration||0;
+ updateFinal();
+});
+song.addEventListener("ended",()=>{
+ pauseBtn.textContent="▶ Послушать ещё раз";
+ progress.style.width="100%";
+});
+
+resize();addEventListener("resize",resize);requestAnimationFrame(drawSpace);
+</script>
+</body>
+</html>
